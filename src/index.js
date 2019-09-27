@@ -1,9 +1,37 @@
 import "./styles.css";
 
-document.getElementById("app").innerHTML = `
-<h1>Hello Vanilla!</h1>
-<div>
-  We use Parcel to bundle this sandbox, you can find more info about Parcel
-  <a href="https://parceljs.org" target="_blank" rel="noopener noreferrer">here</a>.
-</div>
-`;
+var inputEl = document.querySelector("input");
+var buttonEl = document.querySelector("button");
+var ulEl = document.querySelector("ul");
+
+var todos = [];
+
+buttonEl.addEventListener("click", addTodo);
+
+function addTodo() {
+  var userInput = inputEl.value;
+  if (userInput.trim() == "") {
+    return;
+  }
+  var newTodo = { id: Math.random(), value: userInput };
+  todos.push(newTodo);
+  var todoLi = document.createElement("LI");
+  todoLi.textContent = userInput;
+  todoLi.addEventListener("click", removeTodo);
+  todoLi.dataset.id = newTodo.id;
+  ulEl.appendChild(todoLi);
+  console.log(todos);
+}
+
+function removeTodo(event) {
+  var clickedLi = event.target;
+  var itemId = clickedLi.dataset.id;
+  for (var i = 0; i < todos.length; i++) {
+    if (todos[i].id == itemId) {
+      todos.splice(i, 1);
+      break;
+    }
+  }
+  clickedLi.parentNode.removeChild(clickedLi);
+  console.log(todos);
+}
